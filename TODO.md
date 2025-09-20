@@ -3,8 +3,8 @@
 
 
 ## PRIORITARIOS
-- [ ] SCRUM-202: Implementar unit testing para creación de pagos. Escribir test que simule la creación de un pago y valide la persistencia en la tabla `pagos`.
-- [ ] SCRUM-252: Implementar unit testing para query de creación de pagos e integridad. Validar que los pagos creados sean consistentes y que los datos no se dupliquen.
+- [BLOCKED] SCRUM-202: Implementar unit testing para creación de pagos. Escribir test que simule la creación de un pago y valide la persistencia en la tabla `pagos`.
+- [BLOCKED] SCRUM-252: Implementar unit testing para query de creación de pagos e integridad. Validar que los pagos creados sean consistentes y que los datos no se dupliquen.
 - [ ] SCRUM-257: Implementar unit testing para query que retorna cuotas por id de usuario. Validar que los datos coincidan con la tabla `cuotas` y los tipos sean correctos.
 - [ ] SCRUM-253: Implementar unit testing para query de creación de multas e integridad. Validar que las multas se asignen correctamente y que los datos sean consistentes con la tabla `cuotas` y `prestamo_detalles`.
 - [ ] SCRUM-201: Implementar unit testing para query de pagos por socio. Escribir test que verifique la obtención de pagos por usuario y valide los campos contra el esquema real.

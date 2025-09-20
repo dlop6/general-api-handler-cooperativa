@@ -3,4 +3,4 @@ env_variables/
 .env
 TODO.md
 # the repo has local env, so it doesn't really matter
-.env
+

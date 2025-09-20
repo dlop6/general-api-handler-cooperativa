@@ -8,14 +8,30 @@ mod tests {
     use r2d2::Pool;
     use actix_web::web;
 
+    fn clean_affiliate_keys(con: &mut redis::Connection) {
+        // Eliminar todas las claves de afiliados y nombres
+        let keys: Vec<String> = con.keys("users:*:affiliate_key").unwrap_or_default();
+        for k in keys {
+            let _ = con.del::<_, ()>(k);
+        }
+        let keys: Vec<String> = con.keys("users:*:complete_name").unwrap_or_default();
+        for k in keys {
+            let _ = con.del::<_, ()>(k);
+        }
+    }
+
     fn setup_redis_test_data(con: &mut redis::Connection) {
-        let _ = con.set::<_, _, ()>("affiliate_ids:101", "Juan Perez");
-        let _ = con.set::<_, _, ()>("affiliate_ids:202", "Maria Gomez");
+        let _ = con.set::<_, _, ()>("users:101:affiliate_key", "1");
+        let _ = con.set::<_, _, ()>("users:101:complete_name", "Juan Perez");
+        let _ = con.set::<_, _, ()>("users:202:affiliate_key", "1");
+        let _ = con.set::<_, _, ()>("users:202:complete_name", "Maria Gomez");
     }
 
     fn cleanup_redis_test_data(con: &mut redis::Connection) {
-        let _ = con.del::<_, ()>("affiliate_ids:101");
-        let _ = con.del::<_, ()>("affiliate_ids:202");
+        let _ = con.del::<_, ()>("users:101:affiliate_key");
+        let _ = con.del::<_, ()>("users:101:complete_name");
+        let _ = con.del::<_, ()>("users:202:affiliate_key");
+        let _ = con.del::<_, ()>("users:202:complete_name");
     }
 
     #[test]
@@ -27,11 +43,14 @@ mod tests {
     let pool = Pool::builder().build(client).expect("Failed to create Redis pool");
     let mut con = pool.get().expect("Couldn't connect to pool");
 
-        // Insert test data
-        setup_redis_test_data(&mut con);
+    // Limpiar datos residuales antes de insertar datos de prueba
+    clean_affiliate_keys(&mut con);
+    setup_redis_test_data(&mut con);
 
         // Instanciar repo y ejecutar función
-        let repo = PaymentRepo::init(web::Data::new(pool));
+        let repo = PaymentRepo {
+            pool: web::Data::new(pool),
+        };
         let result = repo.get_all_users_for_affiliates();
 
         // Validar resultado
@@ -43,16 +62,16 @@ mod tests {
         let mut found_juan = false;
         let mut found_maria = false;
         for aff in affiliates {
-            match (aff.usuario_id, aff.name.as_str()) {
-                (101, "Juan Perez") => found_juan = true,
-                (202, "Maria Gomez") => found_maria = true,
+            match (aff.user_id.as_str(), aff.name.as_str()) {
+                ("101", "Juan Perez") => found_juan = true,
+                ("202", "Maria Gomez") => found_maria = true,
                 _ => (),
             }
         }
         assert!(found_juan, "Debe encontrar a Juan Perez con id 101");
         assert!(found_maria, "Debe encontrar a Maria Gomez con id 202");
 
-        // Limpiar datos de prueba
-        cleanup_redis_test_data(&mut con);
+    // Limpiar datos de prueba y cualquier residual
+    clean_affiliate_keys(&mut con);
     }
 }

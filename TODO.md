@@ -3,7 +3,7 @@
 
 - [] SCRUM-201: Implementar unit testing para query de pagos por socio. Escribir test que verifique la obtención de pagos por usuario y valide los campos contra el esquema real.
 - [] SCRUM-257: Implementar unit testing para query que retorna cuotas por id de usuario. Validar que los datos coincidan con la tabla `cuotas` y los tipos sean correctos.
-- [] SCRUM-204: Crear tests para GraphQL query que retorna historial de pagos de usuario individual. Validar que los cálculos de historial sean correctos y que los errores se manejen bien para usuarios inexistentes.
+- [X] SCRUM-204: Crear tests para GraphQL query que retorna historial de pagos de usuario individual. Validar que los cálculos de historial sean correctos y que los errores se manejen bien para usuarios inexistentes.
 - [X] SCRUM-199: Implementar unit testing para query de todos los socios. Verificar que la lista de socios se obtenga correctamente y que los campos estén alineados con la tabla `usuarios`.
 - [] SCRUM-202: Implementar unit testing para creación de pagos. Escribir test que simule la creación de un pago y valide la persistencia en la tabla `pagos`.
 - [] SCRUM-252: Implementar unit testing para query de creación de pagos e integridad. Validar que los pagos creados sean consistentes y que los datos no se dupliquen.

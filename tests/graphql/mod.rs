@@ -1,1 +1,2 @@
-// TODO: Do them later
+mod affiliate_test;
+mod payment_test;

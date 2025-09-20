@@ -2,7 +2,7 @@ use serde::Serialize;
 
 pub(crate) mod auth;
 pub(crate) mod general;
-pub(crate) mod graphql;
+pub mod graphql;
 
 //My Own error message
 #[derive(Debug, Clone, Serialize)]
